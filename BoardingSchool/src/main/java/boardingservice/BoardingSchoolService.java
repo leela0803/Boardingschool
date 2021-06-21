@@ -1,10 +1,12 @@
-package boardingService;
+package boardingservice;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import boardingSchoolException.BoardingSchoolNotFoundException;
 import boardingSchoolException.FoodTypeNotFoundexception;
+
+
 
 public class BoardingSchoolService {
 
@@ -77,7 +79,7 @@ public class BoardingSchoolService {
 	void PrintBoardingSchoolDetails() {
 
 		boardingSchools.forEach(boardingSchool -> {
-			Set<String> StudentIds= boardingSchool.getStudents().stream().map(Student:: getRegisterNo).collect(Collectors.toSet());
+			Set<Integer> StudentIds= boardingSchool.getStudents().stream().map(Student:: getRegisterNo).collect(Collectors.toSet());
 			System.out.println(boardingSchool.getName()+boardingSchool.getFoodType() + " : " + StudentIds);
 
 		});

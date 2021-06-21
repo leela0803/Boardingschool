@@ -1,4 +1,4 @@
-package boardingService;
+package boardingservice;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -9,13 +9,13 @@ public class BoardingSchool {
 	private int Size;
 	private String foodType;
 	private String name;
-	private Set<Student> admittedStudentsList;
+	private LinkedHashSet<Student> admittedStudentsList;
 
 	public BoardingSchool(String name,String foodType,  int size) {
 		this.name= name;
 		this.Size= size;
 		this.foodType= foodType;
-		admittedStudentsList = new LinkedHashSet<>(); // Tree set to maintain unique and ordered elements
+		admittedStudentsList = new LinkedHashSet<>(); //  LinkedHashSet to maintain unique and insertion ordered elements
 	}
 	
 	public BoardingSchool(String name) {

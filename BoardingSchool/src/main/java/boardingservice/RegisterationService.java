@@ -1,4 +1,4 @@
-package boardingService;
+package boardingservice;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -43,7 +43,7 @@ public class RegisterationService  {
 				String[] words= inputDetails.split(" ");
 
 				System.out.println("name --> "+ words[1]+ words[2]+ " "+words[3]);
-				Student student= new Student(words[1], words[2], words[3]);
+				Student student= new Student(Integer.parseInt(words[1]),words[2], words[3]);
 
 
 				registerationService.studentRequests.add(student);
@@ -63,18 +63,16 @@ public class RegisterationService  {
 
  public	static void  ProcessRequests(BoardingSchoolService boardingSchoolService, Queue<Student> studentRequests)  {
 
-		//int count=1;
 		while(!studentRequests.isEmpty()) {
 			Student student = studentRequests.poll();
+			
 			try {
 				boardingSchoolService.Register(student);
-			} catch (BoardingSchoolNotFoundException e) {
-				// TODO Auto-generated catch block
+			} catch (BoardingSchoolNotFoundException | FoodTypeNotFoundexception e) {
+				
 				e.printStackTrace();
-			} catch (FoodTypeNotFoundexception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} 
+			
 		} 
 	}
 }

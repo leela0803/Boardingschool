@@ -1,143 +1,107 @@
 package boardingServiceTest;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 import org.junit.Test;
 
-import boardingSchoolException.BoardingSchoolNotFoundException;
-import boardingSchoolException.FoodTypeNotFoundexception;
-import boardingService.BoardingSchool;
-import boardingService.BoardingSchoolService;
-import boardingService.Student;
-
+import boardingservice.BoardingSchool;
+import boardingservice.BoardingSchoolService;
+import boardingservice.RegisterationService;
+import boardingservice.Student;
 
 public class RegisrationServiceTest {
 	
-	 
-	@Test(expected = BoardingSchoolNotFoundException.class)
-	public void testForInvalidFoodType() throws BoardingSchoolNotFoundException, FoodTypeNotFoundexception {
 	
-		
-		BoardingSchoolService boardingSchoolService = new BoardingSchoolService(4);
-		
-		Student student= new Student("1", "C", "V");
-		
-		boardingSchoolService.Register(student);
-
-		
-		BoardingSchool boardingSchool= boardingSchoolService.getBoardingSchoolDetails().stream()
-				.filter(x-> x.getName().equals(student.getBordingSchool()) 
-						&& x.getFoodType().equals(student.getFoodType()))
-				.findFirst().orElse(null);
-		assertNull(boardingSchool);
-		
-	}
-	
-	@Test(expected = FoodTypeNotFoundexception.class)
-	public void testForInvalidBoardingSchoolName() throws BoardingSchoolNotFoundException, FoodTypeNotFoundexception {
-		BoardingSchoolService boardingSchoolService = new BoardingSchoolService(4);
-		
-		Student student= new Student("1", "A", "VN");
-		
-		boardingSchoolService.Register(student);
-
-		
-		BoardingSchool boardingSchool= boardingSchoolService.getBoardingSchoolDetails().stream()
-				.filter(x-> x.getName().equals(student.getBordingSchool()) 
-						&& x.getFoodType().equals(student.getFoodType()))
-				.findFirst().orElse(null);
-		assertNull(boardingSchool);
-		
-	}
 	
 	@Test
-	public void  testRegisterMethod() {
-		BoardingSchoolService boardingSchoolService = new BoardingSchoolService(4);
-		Student student1= new Student("1", "A", "NV");
-		Student student2= new Student("2", "A", "NV");
+	public void  TestRegistrationService() {
 		
-		try {
-	
-			boardingSchoolService.Register(student1);
+		
+		BoardingSchoolService boardingSchoolService = new BoardingSchoolService(12);
+		Queue<Student> queue= new LinkedList<>(); 
+		
+		Student student1= new Student(1, "B", "V");
+		Student student2= new Student(2, "A", "V");
+		Student student3= new Student(3, "A", "V");
+		Student student4= new Student(4, "B", "NV");
+		Student student5= new Student(5, "B", "V");
+		Student student6= new Student(6, "A", "NV");
+		Student student7= new Student(7, "A", "V");
+		Student student8= new Student(8, "A", "NV");
+		Student student9= new Student(9, "B", "NV");
+		Student student10= new Student(10, "B", "NV");
+		Student student11= new Student(11, "A", "NV");
+		Student student12= new Student(12, "B", "NV");
+		Student student13= new Student(13, "A", "NV");
+		
+		queue.add(student1);
+		queue.add(student2);
+		queue.add(student3);
+		queue.add(student4);
+		queue.add(student5);
+		queue.add(student6);
+		queue.add(student7);
+		queue.add(student8);
+		queue.add(student9);
+		queue.add(student10);
+		queue.add(student11);
+		queue.add(student12);
+		queue.add(student13);
+		
+		RegisterationService.ProcessRequests(boardingSchoolService, queue);
+		
+		
+			//get students count from boardingschool AV
+			BoardingSchool boardingSchool;
+			boardingSchool = boardingSchoolService.getBoardingSchoolDetails().stream()
+					.filter(x-> x.getName().equals("A") 
+							&& x.getFoodType().equals("V"))
+					.findFirst().orElse(null);
 			
-			BoardingSchool boardingSchool= boardingSchoolService.getBoardingSchoolDetails().stream()
-					.filter(x-> x.getName().equals(student2.getBordingSchool()) 
+			int studentscount= boardingSchool.getStudents().size();
+			assertEquals(studentscount, 3);
+			
+			
+			//get students count from boardingschool ANV
+			boardingSchool = boardingSchoolService.getBoardingSchoolDetails().stream()
+					.filter(x-> x.getName().equals("A") 
 							&& x.getFoodType().equals("NV"))
 					.findFirst().orElse(null);
-			boardingSchool.getStudents().stream().findFirst();
-			assertEquals(student1, student1);
 			
-		} catch (BoardingSchoolNotFoundException | FoodTypeNotFoundexception e) {
+			studentscount= (int) boardingSchool.getStudents().stream().count();
+			assertEquals(studentscount, 3);
 			
-			e.printStackTrace();
-		} 
-		
-	}
-	
-	
-	
-	
-	
-	// this is to test when the veg boarding schools are filled,
-	//non Veg student can be assigned veg school but vice versa is not possible
-	@Test
-	public void  TestForNVStudentGettingVegBoardingSchool() {
-		BoardingSchoolService boardingSchoolService = new BoardingSchoolService(4);
-		Student student1= new Student("1", "A", "NV");
-		Student student2= new Student("2", "A", "NV");
-		
-		
-		try {
-	
-			boardingSchoolService.Register(student1);
-			boardingSchoolService.Register(student2);
-			
-			BoardingSchool boardingSchool= boardingSchoolService.getBoardingSchoolDetails().stream()
-					.filter(x-> x.getName().equals(student2.getBordingSchool()) 
+			//get students count from boardingschool BV
+			boardingSchool = boardingSchoolService.getBoardingSchoolDetails().stream()
+					.filter(x-> x.getName().equals("B") 
 							&& x.getFoodType().equals("V"))
 					.findFirst().orElse(null);
 			
+			studentscount= (int) boardingSchool.getStudents().stream().count();
+			assertEquals(studentscount, 3);
 			
-			Student student =  boardingSchool.getStudents().stream().findFirst().orElse(null);
 			
-			System.out.println(student.getRegisterNo());
-			assertEquals(student, student2);
-			
-		} catch (BoardingSchoolNotFoundException | FoodTypeNotFoundexception e) {
-			
-			e.printStackTrace();
-		} 
-		
-	}
-	
-	@Test
-	public void  TestRegisterMethod() {
-		BoardingSchoolService boardingSchoolService = new BoardingSchoolService(4);
-		Student student1= new Student("1", "A", "NV");
-		Student student2= new Student("2", "A", "NV");
-		
-		
-		try {
-	
-			boardingSchoolService.Register(student1);
-			boardingSchoolService.Register(student2);
-			
-			BoardingSchool boardingSchool= boardingSchoolService.getBoardingSchoolDetails().stream()
-					.filter(x-> x.getName().equals(student2.getBordingSchool()) 
-							&& x.getFoodType().equals("V"))
+			//get students count from boardingschool BNV
+			boardingSchool = boardingSchoolService.getBoardingSchoolDetails().stream()
+					.filter(x-> x.getName().equals("B") 
+							&& x.getFoodType().equals("NV"))
 					.findFirst().orElse(null);
 			
+			studentscount= (int) boardingSchool.getStudents().stream().count();
+			assertEquals(studentscount, 3);
 			
-			Student student =  boardingSchool.getStudents().stream().findFirst().orElse(null);
 			
-			System.out.println(student.getRegisterNo());
-			assertEquals(student, student2);
+			//get students count from boardingschool NA
+			boardingSchool = boardingSchoolService.getBoardingSchoolDetails().stream()
+					.filter(x-> x.getName().equals("NA") 
+							&& x.getFoodType().equals(""))
+					.findFirst().orElse(null);
 			
-		} catch (BoardingSchoolNotFoundException | FoodTypeNotFoundexception e) {
+			studentscount= (int) boardingSchool.getStudents().stream().count();
+			assertEquals(studentscount, 1);
 			
-			e.printStackTrace();
-		} 
-		
 	}
 	
 	

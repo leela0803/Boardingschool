@@ -1,23 +1,23 @@
-package boardingService;
+package boardingservice;
 
 public class Student {
 
-	private String registerNo;
+	private Integer registerNo;
 	private String foodType;
 	private String bordingSchool;
 	
-	public Student(String registerNo,  String bordingSchool , String foodType) {
+	public Student(Integer registerNo,  String bordingSchool , String foodType) {
 		
 		this.registerNo= registerNo;
 		this.foodType= foodType;
 		this.bordingSchool=bordingSchool;
 	}
 	
-	public String getRegisterNo() {
+	public Integer getRegisterNo() {
 		return registerNo;
 	}
 	
-	public void setRegisterNo(String registerNo) {
+	public void setRegisterNo(Integer registerNo) {
 		this.registerNo = registerNo;
 	}
 	
